@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>CSS3 loading效果</title>
+<style>
+	body{
+		background-color: rgb(13,206,203);
+	}
+	/*圆形loading*/
+	div.circle{
+		width: 100px;
+		height: 100px;
+		margin: 100px auto;
+		border: 15px solid rgba(255,255,255,0.2);
+		border-left-color: #fff;
+		border-radius: 50%;
+		animation: loading1 1s infinite linear;
+	}
+	/*定义动画*/
+	@keyframes loading1{
+		0%{
+			transform: rotate(0deg);
+		}
+		100%{
+			transform: rotate(360deg);
+		}
+	}
+
+	/*竖线loading*/
+	div.upright,
+	div.upright:after,
+	div.upright:before{
+		background-color: #fff;
+		width: 10px;
+		height: 40px;
+		animation: loading2 1s infinite ease-in-out; /*要用的元素调用动画*/
+	}
+	div.upright{
+		position: relative;
+		margin: 100px auto;
+		animation-delay: 0.16s;  /*设置动画延迟开始执行*/
+	}
+	div.upright:after,
+	div.upright:before{
+		content: '';
+		position: absolute;
+	}
+	div.upright:before{
+		left: -15px;
+	}
+	div.upright:after{
+		left: 15px;
+		animation-delay: 0.32s;
+	}
+
+	/*定义动画*/
+	@keyframes loading2{
+		0%,80%{
+			box-shadow: 0 0 #fff;
+			height: 40px;
+		}
+		10%{
+			box-shadow: 0 -20px #fff;
+			height: 50px;
+		}
+	}
+	
+	
+	
+</style>
+</head>
+<body>
+    <!-- 圆形loading -->
+    <div class="circle">  	
+    </div>
+
+    <!-- 竖线loading -->
+	<div class="upright">	
+	</div>
+</body>
+</html>

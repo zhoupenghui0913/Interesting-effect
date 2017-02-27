@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>炫酷的3D Banner效果</title>
+<style>
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	body{
+		font-family: microsoft yahei;
+		font-size: 20px;
+		color: #0f6;
+	}
+
+	.container{
+		position: relative;
+		width: 1200px;
+		height: 400px;
+		margin: 100px auto;
+		border: 1px solid #000;
+		overflow: hidden;
+		perspective: 2000px;  /*给舞台元素加一个视角*/
+	}
+	
+	.wrap{
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background-color: #000;
+		transition: transform 0.1s;
+		transform-style: preserve-3d; /*父容器加一个3D声明*/
+	}
+	.info{
+		position: absolute;
+		top: 50%;
+		left: 100px;
+		transform: translateY(-50%);
+		transform-style: preserve-3d; /*父容器加一个3D声明*/
+	}
+	/*让三行文字有3D效果*/
+	.info .p1{
+		transform: translateZ(65px);
+		font-size: 35px;
+		margin-left: 15px;
+	}
+	.info .p2{
+		transform: translateZ(0px);
+		font-size: 21px;
+		margin: 5px 0 15px 0;
+	}
+	.info .p3{
+		transform: translateZ(40px);
+		font-size: 24px;
+		margin-left: 10px;
+	}
+
+
+	.img1{
+		position: absolute;
+		top: -40px;
+		right: 200px;
+	}
+	.img2{
+		position: absolute;
+		top: 105px;
+		right: 125px;
+	}
+	.img1 img{
+		width: 570px;
+	}
+	.img2 img{
+		width: 200px;
+	}
+
+	/*让图片有3D效果*/
+	.img1{
+		transform: translateZ(200px);
+	}
+	.img2{
+		transform: translateZ(10px);
+	}
+	
+</style>
+</head>
+<body>
+	<div class="container">  <!-- 舞台元素 -->
+		<div class="wrap">  <!-- 容器 -->
+			<div class="info">
+				<p class="p1">炫酷的3D Banner效果</p>
+				<p class="p2">Hello World!</p>
+				<p class="p3">2016年12月23日</p>
+			</div>
+			<div class="img1">
+				<img src="img/font.png" alt="">
+			</div>
+			<div class="img2">
+				<img src="img/behind.png" alt="">
+			</div>
+		</div>
+	</div>
+
+	<script src="./jquery-2.2.3.js"></script>
+	<script>
+		$(function(){
+			$(".container").on('mousemove', function(e){
+				// 1、获取鼠标相对容器元素的位置
+
+				//容器元素左上角到页面的距离
+				var offset = $(".wrap").offset(); 
+
+				//鼠标焦点到页面的距离和容器左上角到页面的距离差即为鼠标在容器里的相对坐标值
+				var x = e.pageX-offset.left;  //坐标原点是容器元素的左上角
+				var y = e.pageY-offset.top;
+
+				// 2、根据鼠标的坐标算出应该旋转的角度
+				// 鼠标在容器中心点是不转的，所以先给出一个鼠标在边缘时旋转的最大角度，然后算出一个线性的变化值
+
+				//可以假定最大旋转为10度
+				var deg = 10;  
+
+				// 容器中心点坐标就是这个容器总宽高的一半
+				var centerX = $(".wrap").width()/2;
+				var centerY = $(".wrap").height()/2;
+
+				// 鼠标和容器中心点的距离
+				var distanceX = x-centerX;  //鼠标在中心点左边时值为负，右边时为正
+				var distanceY = y-centerY;
+
+				// 计算出鼠标位置到中心距离占比
+				var percentX = distanceX/centerX;
+				var percentY = distanceY/centerY;
+
+				// 最后根据这个线性关系计算出鼠标位置对应的容器旋转角度
+				$(".wrap").css({
+					// 这里旋转的正负根据3D坐标来判断
+					// 鼠标在中心上面时percentY为负，而这时绕X轴应该顺时针转所以加负号
+					// 鼠标在中心下面时percentY为正，而这时绕X轴应该逆时针转所以加负号
+					// 同理可以明确rotateY这里不再赘述
+					"transform": 'rotateX('+deg*-percentY+'deg) rotateY('+deg*percentX+'deg)',
+					cursor: "pointer"
+				});
+				$(".container").css({
+					"cursor": "pointer"
+				});
+			});
+
+			$(".container").on('mouseleave', function(){
+				$(".wrap").css({
+					"transform": ""
+				});
+			});
+
+		});
+	</script>
+</body>
+</html>

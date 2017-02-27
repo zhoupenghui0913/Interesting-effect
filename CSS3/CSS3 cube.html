@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>旋转立方体</title>
+<style>
+	.container{
+		position: relative;
+		width: 200px;
+		height: 200px;
+		margin: 40px auto;
+		perspective: 1200px;  /*添加一个视角，和单独添加到每个面上效果不一样*/
+	}
+	.cube{
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		transform-style: preserve-3d;  /*3D视图声明*/
+	}
+
+
+	.cube .face{
+		position: absolute;
+		width: 196px;
+		height: 196px;
+		border: 2px solid black;
+		color: white;
+		font-size: 60px;
+		text-align: center;
+		line-height: 196px;
+	}
+	.cube .face.front{
+		background-color: red;
+		transform: translateZ(100px);
+	}
+	.cube .face.back{
+		background-color: pink;
+		/*这里注意顺序，因为这个坐标系是随这个元素变动的*/
+		transform: translateZ(-100px) rotateY(-180deg);  
+	}
+	.cube .face.right{
+		background-color: yellow;
+		transform: translateX(100px) rotateY(90deg) ;
+	}
+	.cube .face.left{
+		background-color: blue;
+		transform: translateX(-100px) rotateY(-90deg);
+	}
+	.cube .face.top{
+		background-color: green;
+		transform:  translateY(-100px) rotateX(90deg) ;
+	}
+	.cube .face.bottom{
+		background-color: gray;
+		transform: translateY(100px) rotateX(-90deg);
+	}
+
+	/*让这个方块动起来，定义动画*/
+	@keyframes revolve{
+		0%{
+			transform: translateZ(-1200px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+		}
+		100%{
+			transform: translateZ(-100px) rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+		}
+	}
+	/*要用的元素调用动画*/
+	.cube{
+		animation: revolve 4s infinite;
+	}
+
+	
+</style>
+</head>
+<body>
+	<div class="container"> <!-- 因为视点要放在外面所以这里包裹一下 -->
+		<div class="cube">
+			<div class="face front">前</div>
+			<div class="face back">后</div>
+			<div class="face right">右</div>
+			<div class="face left">左</div>
+			<div class="face top">上</div>
+			<div class="face bottom">下</div>
+		</div>	
+	</div> 
+</body>
+</html>
