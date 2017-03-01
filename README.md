@@ -16,8 +16,3 @@
 
 ###5、渐变效果
 预览：[渐变效果](https://zhoupenghui0913.github.io/Interesting-effect/CSS3/CSS3gradients.html)
-
-###6、新闻无限加载
-预览：[新闻加载](https://zhoupenghui0913.github.io/Interesting-effect/newswaterfall/index.html)
-
-
